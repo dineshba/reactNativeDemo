@@ -18,6 +18,6 @@ export default class CustomStatusBar extends React.Component {
 const styles = StyleSheet.create({
   statusBarBackground: {
     height: (Platform.OS === 'ios') ? 18 : 0,
-    backgroundColor: "#545",
+    backgroundColor: "#127AC9",
   }
 })
