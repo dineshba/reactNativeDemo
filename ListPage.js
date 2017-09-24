@@ -7,22 +7,17 @@ export default class ListPage extends React.Component {
     if(text == "") {
         this.setState({filtered: this.state.allData})
     } else {
-      this.setState({filtered: this.state.allData.filter(d => d.key.includes(text))})
+      response = fetch('https://api.github.com/search/repositories\?q\=topic:' + text)
+      response.then((response) => response.json())
+      .then(res => {
+        this.setState({filtered: res.items})
+      })
     }
   }
 
   constructor() {
     super();
-    this.state = {allData: [
-      {key: 'Devin'},
-      {key: 'Jackson'},
-      {key: 'James'},
-      {key: 'Joel'},
-      {key: 'John'},
-      {key: 'Jillian'},
-      {key: 'Jimmy'},
-      {key: 'Julie'},
-    ]}
+    this.state = {allData: []}
     this.state.filtered = this.state.allData
   }
 
@@ -43,7 +38,8 @@ export default class ListPage extends React.Component {
         placeholder='Type Here...' />
         <FlatList
             data={this.state.filtered}
-            renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
+            renderItem={({item}) => <Text style={styles.item}>{item.full_name}</Text>}
+            keyExtractor={(item, index) => index}
         />
       </View>
     )
@@ -52,7 +48,6 @@ export default class ListPage extends React.Component {
 
 const styles = StyleSheet.create({
   searchBarContainer: {
-    // backgroundColor: "#127AC9"
     backgroundColor: "#f0f0f0"
   },
   searchBarInputStyle: {
