@@ -7,8 +7,8 @@ export default class App extends React.Component {
   render() {
     return (
       <View>
-      <CustomStatusBar/>
-      <ListPage/>
+        <CustomStatusBar/>
+        <ListPage/>
       </View>
     );
   }
