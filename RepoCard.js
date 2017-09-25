@@ -1,8 +1,10 @@
 import React from 'react';
 import { StyleSheet, View, Text, Image} from 'react-native';
+import Moment from 'moment';
 
 export default class RepoCard extends React.Component {
   render() {
+    Moment.locale('en');
     return(
       <View style={styles.card}>
         <Image
@@ -10,12 +12,9 @@ export default class RepoCard extends React.Component {
           source={{uri: this.props.item.owner.avatar_url}}
         />
         <View style={{flex:1}}>
-          <Text style={{flex:3, fontSize: 15}}>{this.props.item.description}</Text>
-          <View style={{flex: 1, flexDirection: 'row'}}>
-            <Text style={{fontSize: 13}}>Score: </Text>
-            <Text style={{fontSize: 13}}>{this.props.item.score}</Text>
-          </View>
-          <Text style={{flex:1, fontSize: 11}}>{this.props.item.updated_at}</Text>
+          <Text style={{flex:3, fontSize: 15, paddingBottom: 2}}>{this.props.item.description ? this.props.item.description : "No Description"}</Text>
+          <Text style={{fontSize: 13, paddingBottom: 2}}>Score: {this.props.item.score}</Text>
+          <Text style={{fontSize: 11, paddingBottom: 2}}>UpdatedAt: {Moment(this.props.item.updated_at).format('d MMM YYYY')}</Text>
         </View>
       </View>
     )
