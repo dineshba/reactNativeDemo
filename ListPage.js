@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, FlatList, Text} from 'react-native';
-import { SearchBar } from 'react-native-elements'
+import { SearchBar } from 'react-native-elements';
+import RepoCard from './RepoCard';
 
 export default class ListPage extends React.Component {
   searchFor(text) {
@@ -38,7 +39,7 @@ export default class ListPage extends React.Component {
         placeholder='Type Here...' />
         <FlatList
             data={this.state.filtered}
-            renderItem={({item}) => <Text style={styles.item}>{item.full_name}</Text>}
+            renderItem={({item}) => <RepoCard item={item} />}
             keyExtractor={(item, index) => index}
         />
       </View>
