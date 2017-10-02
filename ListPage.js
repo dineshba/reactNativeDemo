@@ -2,25 +2,42 @@ import React from 'react';
 import { StyleSheet, View, FlatList, Text, ActivityIndicator } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import RepoCard from './RepoCard';
+const fetch = require('react-native-cancelable-fetch');
 
 export default class ListPage extends React.Component {
   searchFor(text) {
+    this.setUpSearch(text)
     if(text == "") {
-        this.setState({filtered: this.state.allData})
+        this.resetData()
     } else {
-      this.setState({isLoading: true})
-      response = fetch('https://api.github.com/search/repositories\?q\=topic:' + text)
+      response = fetch('https://api.github.com/search/repositories\?q\=topic:' + text, null, text)
       response.then((response) => response.json())
       .then(res => {
-        this.setState({filtered: res.items})
-        this.setState({isLoading: false})
+        if(!!res.message) {
+          this.resetData()
+          this.setState({error: {message: res.message}})
+        } else {
+          this.setState({filtered: res.items})
+          this.setState({error: {}})
+        }
       })
     }
+    this.setState({isLoading: false})
+  }
+
+  resetData() {
+    this.setState({filtered: []})
+  }
+
+  setUpSearch(text) {
+    fetch.abort(this.state.previousSearch)
+    this.setState({previousSearch: text})
+    this.setState({isLoading: true})
   }
 
   constructor() {
     super();
-    this.state = {allData: [], filtered: [], isLoading: false};
+    this.state = {filtered: [], isLoading: false, previousSearch: "", error: {}};
   }
 
   componentDidMount() {
@@ -46,11 +63,16 @@ export default class ListPage extends React.Component {
                    size = "large"
                    style = {styles.activityIndicatorContainer}/>
             </View>
-            :<FlatList
-                data={this.state.filtered}
-                renderItem={({item}) => <RepoCard item={item} />}
-                keyExtractor={(item, index) => index}
-            />
+            : <View>
+              {this.state.error.message ?
+                <Text>{this.state.error.message}</Text>
+                : <FlatList
+                  data={this.state.filtered}
+                  renderItem={({item}) => <RepoCard item={item} />}
+                  keyExtractor={(item, index) => index}
+                  />
+              }
+              </View>
           }
       </View>
     )
