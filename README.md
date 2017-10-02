@@ -3,7 +3,7 @@ TODO:
 * <strike>Loader icon</strike>
 * <strike>List view</strike>
 * <strike>Search Component</strike>
-* Details page
+* Navigation
 
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
 
