@@ -6,6 +6,7 @@ const fetch = require('react-native-cancelable-fetch');
 
 export default class ListPage extends React.Component {
   searchFor(text) {
+    console.log(text);
     this.setUpSearch(text)
     if(text == "") {
         this.resetData()
@@ -13,6 +14,7 @@ export default class ListPage extends React.Component {
       response = fetch('https://api.github.com/search/repositories\?q\=topic:' + text, null, text)
       response.then((response) => response.json())
       .then(res => {
+        console.log(res);
         if(!!res.message) {
           this.resetData()
           this.setState({error: {message: res.message}})

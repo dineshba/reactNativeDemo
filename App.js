@@ -1,14 +1,14 @@
 import React from 'react';
 import { Text, View, StatusBar } from 'react-native';
 import CustomStatusBar from './StatusBar'
-import ListPage from './ListPage'
+import MainContent from './MainContent'
 
 export default class App extends React.Component {
   render() {
     return (
       <View>
         <CustomStatusBar/>
-        <ListPage/>
+        <MainContent style={{height: 500, width: 500}}/>
       </View>
     );
   }
